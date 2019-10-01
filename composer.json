@@ -15,9 +15,9 @@
         "ext-fileinfo": "*"
     },
     "require-dev": {
-        "atoum/atoum": "^3.3",
         "friendsofphp/php-cs-fixer": "^2.15",
         "orchestra/testbench": "^4.0",
+        "php-coveralls/php-coveralls": "^2.1",
         "phpunit/php-code-coverage": "^7.0",
         "phpunit/phpunit": "^8.0"
     },

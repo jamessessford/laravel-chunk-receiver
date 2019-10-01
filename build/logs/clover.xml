@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1569946097">
+  <project timestamp="1569946097">
+    <package name="JamesSessford\LaravelChunkReceiver">
+      <file name="C:\jamessessford\packages\laravel-chunk-receiver\src\ChunkReceiver.php">
+        <class name="JamesSessford\LaravelChunkReceiver\ChunkReceiver" namespace="JamesSessford\LaravelChunkReceiver">
+          <metrics complexity="2" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="4" coveredstatements="4" elements="6" coveredelements="6"/>
+        </class>
+        <line num="22" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="3"/>
+        <line num="24" type="stmt" count="3"/>
+        <line num="25" type="stmt" count="3"/>
+        <line num="34" type="method" name="receive" visibility="public" complexity="1" crap="1" count="3"/>
+        <line num="36" type="stmt" count="3"/>
+        <line num="38" type="stmt" count="3"/>
+        <metrics loc="40" ncloc="24" classes="1" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="4" coveredstatements="4" elements="6" coveredelements="6"/>
+      </file>
+      <file name="C:\jamessessford\packages\laravel-chunk-receiver\src\ChunkReceiverServiceProvider.php">
+        <class name="JamesSessford\LaravelChunkReceiver\ChunkReceiverServiceProvider" namespace="JamesSessford\LaravelChunkReceiver">
+          <metrics complexity="3" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="12" coveredstatements="12" elements="14" coveredelements="14"/>
+        </class>
+        <line num="23" type="method" name="boot" visibility="public" complexity="2" crap="2" count="5"/>
+        <line num="25" type="stmt" count="5"/>
+        <line num="26" type="stmt" count="5"/>
+        <line num="27" type="stmt" count="5"/>
+        <line num="28" type="stmt" count="5"/>
+        <line num="30" type="stmt" count="5"/>
+        <line num="37" type="method" name="register" visibility="public" complexity="1" crap="1" count="5"/>
+        <line num="39" type="stmt" count="5"/>
+        <line num="40" type="stmt" count="5"/>
+        <line num="41" type="stmt" count="5"/>
+        <line num="45" type="stmt" count="3"/>
+        <line num="46" type="stmt" count="5"/>
+        <line num="48" type="stmt" count="5"/>
+        <line num="49" type="stmt" count="5"/>
+        <metrics loc="50" ncloc="35" classes="1" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="12" coveredstatements="12" elements="14" coveredelements="14"/>
+      </file>
+      <file name="C:\jamessessford\packages\laravel-chunk-receiver\src\ReceivedFile.php">
+        <class name="JamesSessford\LaravelChunkReceiver\ReceivedFile" namespace="JamesSessford\LaravelChunkReceiver">
+          <metrics complexity="18" methods="8" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="43" coveredstatements="39" elements="51" coveredelements="43"/>
+        </class>
+        <line num="35" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="4"/>
+        <line num="37" type="stmt" count="4"/>
+        <line num="38" type="stmt" count="4"/>
+        <line num="39" type="stmt" count="4"/>
+        <line num="46" type="method" name="getChunkPath" visibility="public" complexity="2" crap="2" count="3"/>
+        <line num="48" type="stmt" count="3"/>
+        <line num="50" type="stmt" count="3"/>
+        <line num="51" type="stmt" count="3"/>
+        <line num="54" type="stmt" count="3"/>
+        <line num="64" type="method" name="processUpload" visibility="public" complexity="2" crap="2" count="4"/>
+        <line num="66" type="stmt" count="4"/>
+        <line num="67" type="stmt" count="4"/>
+        <line num="69" type="stmt" count="4"/>
+        <line num="70" type="stmt" count="2"/>
+        <line num="72" type="stmt" count="2"/>
+        <line num="75" type="stmt" count="4"/>
+        <line num="77" type="stmt" count="4"/>
+        <line num="87" type="method" name="single" visibility="public" complexity="2" crap="2.15" count="2"/>
+        <line num="89" type="stmt" count="2"/>
+        <line num="90" type="stmt" count="2"/>
+        <line num="92" type="stmt" count="0"/>
+        <line num="101" type="method" name="chunks" visibility="public" complexity="3" crap="3.00" count="3"/>
+        <line num="103" type="stmt" count="3"/>
+        <line num="104" type="stmt" count="0"/>
+        <line num="107" type="stmt" count="3"/>
+        <line num="108" type="stmt" count="3"/>
+        <line num="109" type="stmt" count="3"/>
+        <line num="110" type="stmt" count="3"/>
+        <line num="112" type="stmt" count="3"/>
+        <line num="114" type="stmt" count="3"/>
+        <line num="115" type="stmt" count="3"/>
+        <line num="117" type="stmt" count="2"/>
+        <line num="118" type="stmt" count="1"/>
+        <line num="120" type="stmt" count="1"/>
+        <line num="122" type="stmt" count="2"/>
+        <line num="130" type="method" name="removeOldData" visibility="private" complexity="3" crap="3.33" count="3"/>
+        <line num="132" type="stmt" count="3"/>
+        <line num="133" type="stmt" count="0"/>
+        <line num="135" type="stmt" count="3"/>
+        <line num="144" type="method" name="appendData" visibility="private" complexity="4" crap="4.02" count="3"/>
+        <line num="146" type="stmt" count="3"/>
+        <line num="147" type="stmt" count="0"/>
+        <line num="150" type="stmt" count="3"/>
+        <line num="151" type="stmt" count="1"/>
+        <line num="154" type="stmt" count="2"/>
+        <line num="155" type="stmt" count="2"/>
+        <line num="158" type="stmt" count="2"/>
+        <line num="159" type="stmt" count="2"/>
+        <line num="160" type="stmt" count="2"/>
+        <line num="167" type="method" name="withChunks" visibility="public" complexity="1" crap="1" count="4"/>
+        <line num="169" type="stmt" count="4"/>
+        <metrics loc="171" ncloc="111" classes="1" methods="8" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="43" coveredstatements="39" elements="51" coveredelements="43"/>
+      </file>
+    </package>
+    <file name="C:\jamessessford\packages\laravel-chunk-receiver\src\Contracts\ChunkReceiver.php">
+      <metrics loc="13" ncloc="10" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+    </file>
+    <package name="JamesSessford\LaravelChunkReceiver\Exceptions">
+      <file name="C:\jamessessford\packages\laravel-chunk-receiver\src\Exceptions\Exception.php">
+        <class name="JamesSessford\LaravelChunkReceiver\Exceptions\Exception" namespace="JamesSessford\LaravelChunkReceiver\Exceptions">
+          <metrics complexity="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+        </class>
+        <metrics loc="8" ncloc="6" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+      </file>
+    </package>
+    <package name="JamesSessford\LaravelChunkReceiver\Facades">
+      <file name="C:\jamessessford\packages\laravel-chunk-receiver\src\Facades\ChunkReceiver.php">
+        <class name="JamesSessford\LaravelChunkReceiver\Facades\ChunkReceiver" namespace="JamesSessford\LaravelChunkReceiver\Facades">
+          <metrics complexity="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="1" coveredstatements="1" elements="2" coveredelements="2"/>
+        </class>
+        <line num="15" type="method" name="getFacadeAccessor" visibility="protected" complexity="1" crap="1" count="3"/>
+        <line num="17" type="stmt" count="3"/>
+        <metrics loc="19" ncloc="14" classes="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="1" coveredstatements="1" elements="2" coveredelements="2"/>
+      </file>
+    </package>
+    <package name="JamesSessford\LaravelChunkReceiver\Requests">
+      <file name="C:\jamessessford\packages\laravel-chunk-receiver\src\Requests\ChunkReceiverRequest.php">
+        <class name="JamesSessford\LaravelChunkReceiver\Requests\ChunkReceiverRequest" namespace="JamesSessford\LaravelChunkReceiver\Requests">
+          <metrics complexity="2" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="5" coveredstatements="5" elements="7" coveredelements="7"/>
+        </class>
+        <line num="9" type="method" name="authorize" visibility="public" complexity="1" crap="1" count="4"/>
+        <line num="11" type="stmt" count="4"/>
+        <line num="14" type="method" name="rules" visibility="public" complexity="1" crap="1" count="4"/>
+        <line num="17" type="stmt" count="4"/>
+        <line num="18" type="stmt" count="4"/>
+        <line num="19" type="stmt" count="4"/>
+        <line num="20" type="stmt" count="4"/>
+        <metrics loc="23" ncloc="23" classes="1" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="5" coveredstatements="5" elements="7" coveredelements="7"/>
+      </file>
+    </package>
+    <metrics files="7" loc="324" ncloc="223" classes="5" methods="15" coveredmethods="11" conditionals="0" coveredconditionals="0" statements="65" coveredstatements="61" elements="80" coveredelements="72"/>
+  </project>
+</coverage>
