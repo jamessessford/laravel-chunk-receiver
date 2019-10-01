@@ -3,10 +3,9 @@
 namespace JamesSessford\LaravelChunkReceiver;
 
 use Closure;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Filesystem\Filesystem;
 use JamesSessford\LaravelChunkReceiver\Exceptions\Exception;
-
 use JamesSessford\LaravelChunkReceiver\Requests\ChunkReceiverRequest as Request;
 
 final class ReceivedFile
@@ -48,7 +47,7 @@ final class ReceivedFile
     {
         $path = config('chunk-receiver.chunk_path');
 
-        if (!$this->storage->isDirectory($path)) {
+        if (! $this->storage->isDirectory($path)) {
             $this->storage->makeDirectory($path, 0777, true);
         }
 
@@ -79,7 +78,7 @@ final class ReceivedFile
     }
 
     /**
-     * Handle whole file
+     * Handle whole file.
      *
      * @param  string $name
      * @param  \Closure $closure
@@ -93,7 +92,7 @@ final class ReceivedFile
     }
 
     /**
-     * Handle chunked upload
+     * Handle chunked upload.
      *
      * @param  string $name
      * @param  \Closure $closure
@@ -101,7 +100,7 @@ final class ReceivedFile
      */
     public function chunks($name, Closure $closure)
     {
-        if (!$this->request->hasFile($name)) {
+        if (! $this->request->hasFile($name)) {
             return;
         }
 
@@ -110,13 +109,14 @@ final class ReceivedFile
         $chunks = (int) $this->request->input('chunks', false);
         $originalName = $this->request->input('name');
 
-        $filePath = $this->getChunkPath() . '/' . $originalName . '.part';
+        $filePath = $this->getChunkPath().'/'.$originalName.'.part';
 
         $this->removeOldData($filePath);
         $this->appendData($filePath, $file);
 
         if ($chunk == $chunks) {
             $file = new UploadedFile($filePath, $originalName, 'blob', UPLOAD_ERR_OK, true);
+
             return $closure($file);
         }
     }
@@ -135,7 +135,7 @@ final class ReceivedFile
     }
 
     /**
-     * Merge the new chunk with the previous chunks
+     * Merge the new chunk with the previous chunks.
      *
      * @param  string $filePathPartial
      * @param  \Illuminate\Http\UploadedFile $file
@@ -143,11 +143,11 @@ final class ReceivedFile
      */
     private function appendData($filePathPartial, UploadedFile $file)
     {
-        if (!$out = @fopen($filePathPartial, 'ab')) {
+        if (! $out = @fopen($filePathPartial, 'ab')) {
             throw new Exception('Failed to open output stream.', 102);
         }
 
-        if (!$in = @fopen($file->getPathname(), 'rb')) {
+        if (! $in = @fopen($file->getPathname(), 'rb')) {
             throw new Exception('Failed to open input stream', 101);
         }
 
