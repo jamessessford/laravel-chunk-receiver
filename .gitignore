@@ -1,0 +1,6 @@
+/vendor
+.php_cs.cache
+.phpunit.result.cache
+.env
+/tests/Support/temp
+/tests/temp
