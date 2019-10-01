@@ -2,16 +2,14 @@
 
 namespace JamesSessford\LaravelChunkReceiver\Tests\Feature\ChunkReceiver;
 
-use Illuminate\Filesystem\Filesystem as FileSystem;
-use Illuminate\Http\Testing\File as TestingFile;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
-
+use Illuminate\Http\Testing\File as TestingFile;
+use Illuminate\Filesystem\Filesystem as FileSystem;
+use JamesSessford\LaravelChunkReceiver\Tests\TestCase;
 use JamesSessford\LaravelChunkReceiver\Facades\ChunkReceiver;
 use JamesSessford\LaravelChunkReceiver\Requests\ChunkReceiverRequest as Request;
-
-use JamesSessford\LaravelChunkReceiver\Tests\TestCase;
 
 final class IntegrationTest extends TestCase
 {
@@ -57,7 +55,7 @@ final class IntegrationTest extends TestCase
         });
 
         $fileName = 'image.jpg';
-        $filePath = $this->getSupportDirectory() . '/' . $fileName;
+        $filePath = $this->getSupportDirectory().'/'.$fileName;
 
         $fileSize = filesize($filePath);
         $chunkSize = (config('chunk-receiver.chunk_size') * 1024);
@@ -85,12 +83,13 @@ final class IntegrationTest extends TestCase
         Route::post('/chunks', function (Request $request) {
             return ChunkReceiver::receive('file', function ($file) use ($request) {
                 Storage::disk('public')->putFileAs('temp/files/', $file, 'image.jpg');
+
                 return response(['file' => $request->file('file')->name]);
             });
         });
 
         $fileName = 'image.jpg';
-        $filePath = $this->getSupportDirectory() . '/' . $fileName;
+        $filePath = $this->getSupportDirectory().'/'.$fileName;
 
         $fileSize = filesize($filePath);
         $chunkSize = (config('chunk-receiver.chunk_size') * 1024);
@@ -118,7 +117,7 @@ final class IntegrationTest extends TestCase
     public function chunk_receiver()
     {
         $fileName = 'image.jpg';
-        $filePath = $this->getSupportDirectory() . '/' . $fileName;
+        $filePath = $this->getSupportDirectory().'/'.$fileName;
 
         $fileSize = filesize($filePath);
         $chunkSize = (config('chunk-receiver.chunk_size') * 1024);
@@ -143,7 +142,6 @@ final class IntegrationTest extends TestCase
         $receivedFile = new \JamesSessford\LaravelChunkReceiver\ReceivedFile($chunkReceiverRequest, $filesystem);
         $receivedFile->processUpload('file', function ($file) {
         });
-
 
         $i = 1;
         $fileBytes = file_get_contents($filePath, false, null, $i * $chunkSize, $chunkSize);

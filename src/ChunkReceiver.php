@@ -34,6 +34,7 @@ final class ChunkReceiver implements Contract
     public function receive($name, Closure $closure)
     {
         $receivedFileHandler = $this->app->make(ReceivedFile::class);
+
         return $receivedFileHandler->processUpload($name, $closure);
     }
 }

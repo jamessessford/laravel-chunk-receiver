@@ -3,8 +3,8 @@
 namespace JamesSessford\LaravelChunkReceiver;
 
 use Illuminate\Support\ServiceProvider;
-use JamesSessford\LaravelChunkReceiver\Contracts\ChunkReceiver as ChunkReceiverContract;
 use JamesSessford\LaravelChunkReceiver\Facades\ChunkReceiver as ChunkReceiverFacade;
+use JamesSessford\LaravelChunkReceiver\Contracts\ChunkReceiver as ChunkReceiverContract;
 
 final class ChunkReceiverServiceProvider extends ServiceProvider
 {
@@ -24,7 +24,7 @@ final class ChunkReceiverServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__ . '/../config/chunk-receiver.php' => config_path('chunk-receiver.php'),
+                __DIR__.'/../config/chunk-receiver.php' => config_path('chunk-receiver.php'),
             ], 'config');
         }
     }
@@ -37,7 +37,7 @@ final class ChunkReceiverServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__ . '/../config/chunk-receiver.php',
+            __DIR__.'/../config/chunk-receiver.php',
             'chunk-receiver'
         );
 
