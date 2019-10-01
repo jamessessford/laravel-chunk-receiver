@@ -36,7 +36,7 @@ final class IntegrationTest extends TestCase
             });
         });
 
-        $response = $this->post('/chunks', ['file' => "this is actually just text!"]);
+        $response = $this->post('/chunks', ['file' => 'this is actually just text!']);
         $response->assertStatus(200);
     }
 
@@ -49,7 +49,7 @@ final class IntegrationTest extends TestCase
             });
         });
 
-        $response = $this->post('/chunks', ['file' => "this is actually just text!", 'chunks' => 1, 'chunk' => 0]);
+        $response = $this->post('/chunks', ['file' => 'this is actually just text!', 'chunks' => 1, 'chunk' => 0]);
         $response->assertStatus(200);
     }
 
@@ -115,7 +115,7 @@ final class IntegrationTest extends TestCase
         });
 
         $fileName = 'image.jpg';
-        $filePath = $this->getSupportDirectory() . '/' . $fileName;
+        $filePath = $this->getSupportDirectory().'/'.$fileName;
 
         $fileSize = filesize($filePath);
         $chunkSize = (config('chunk-receiver.chunk_size') * 1024);
@@ -124,7 +124,7 @@ final class IntegrationTest extends TestCase
         $i = 0;
         $fileBytes = file_get_contents($filePath, false, null, $i * $chunkSize, $chunkSize);
 
-        $touch = touch($this->getChunkDirectory() . '/.part', time() - 2000, time() - 2000);
+        $touch = touch($this->getChunkDirectory().'/.part', time() - 2000, time() - 2000);
 
         $tmpfile = tmpfile();
         fwrite($tmpfile, $fileBytes);
