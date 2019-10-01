@@ -2,14 +2,14 @@
 
 namespace JamesSessford\LaravelChunkReceiver\Tests\Feature\ChunkReceiver;
 
-use Illuminate\Filesystem\Filesystem as FileSystem;
-use Illuminate\Http\Testing\File as TestingFile;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Testing\File as TestingFile;
+use Illuminate\Filesystem\Filesystem as FileSystem;
+use JamesSessford\LaravelChunkReceiver\Tests\TestCase;
 use JamesSessford\LaravelChunkReceiver\Facades\ChunkReceiver;
 use JamesSessford\LaravelChunkReceiver\Requests\ChunkReceiverRequest as Request;
-use JamesSessford\LaravelChunkReceiver\Tests\TestCase;
 
 final class IntegrationTest extends TestCase
 {
@@ -25,6 +25,32 @@ final class IntegrationTest extends TestCase
         $response = $this->post('/chunks');
         $response->assertStatus(302);
         $response->assertSessionHas('errors');
+    }
+
+    /** @test */
+    public function sending_no_files_returns_fine()
+    {
+        Route::post('/chunks', function (Request $request) {
+            return ChunkReceiver::receive('file', function ($file) use ($request) {
+                return response(200);
+            });
+        });
+
+        $response = $this->post('/chunks', ['file' => "this is actually just text!"]);
+        $response->assertStatus(200);
+    }
+
+    /** @test */
+    public function sending_no_chunks_returns_fine()
+    {
+        Route::post('/chunks', function (Request $request) {
+            return ChunkReceiver::receive('file', function ($file) use ($request) {
+                return response(200);
+            });
+        });
+
+        $response = $this->post('/chunks', ['file' => "this is actually just text!", 'chunks' => 1, 'chunk' => 0]);
+        $response->assertStatus(200);
     }
 
     /** @test */
@@ -48,6 +74,8 @@ final class IntegrationTest extends TestCase
     /** @test */
     public function file_chunk_can_be_uploaded()
     {
+        rmdir($this->getChunkDirectory());
+
         Route::post('/chunks', function (Request $request) {
             return ChunkReceiver::receive('file', function ($file) use ($request) {
                 return response(['file' => $request->file('file')->name]);
@@ -63,6 +91,41 @@ final class IntegrationTest extends TestCase
 
         $i = 0;
         $fileBytes = file_get_contents($filePath, false, null, $i * $chunkSize, $chunkSize);
+        $tmpfile = tmpfile();
+        fwrite($tmpfile, $fileBytes);
+
+        $file = new TestingFile('image.jpg', $tmpfile);
+
+        $response = $this->post('/chunks', ['file' => $file, 'chunk' => $i, 'chunks' => $fileChunks, 'name' => $fileName]);
+        fclose($tmpfile);
+
+        $data = ['result' => null];
+
+        $response->assertStatus(200);
+        $response->assertJsonFragment($data);
+    }
+
+    /** @test */
+    public function file_old_chunks_will_be_deleted()
+    {
+        Route::post('/chunks', function (Request $request) {
+            return ChunkReceiver::receive('file', function ($file) use ($request) {
+                return response(['file' => $request->file('file')->name]);
+            });
+        });
+
+        $fileName = 'image.jpg';
+        $filePath = $this->getSupportDirectory() . '/' . $fileName;
+
+        $fileSize = filesize($filePath);
+        $chunkSize = (config('chunk-receiver.chunk_size') * 1024);
+        $fileChunks = (int) ceil($fileSize / $chunkSize);
+
+        $i = 0;
+        $fileBytes = file_get_contents($filePath, false, null, $i * $chunkSize, $chunkSize);
+
+        $touch = touch($this->getChunkDirectory() . '/.part', time() - 2000, time() - 2000);
+
         $tmpfile = tmpfile();
         fwrite($tmpfile, $fileBytes);
 
