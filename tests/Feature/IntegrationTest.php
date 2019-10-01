@@ -83,7 +83,7 @@ final class IntegrationTest extends TestCase
         });
 
         $fileName = 'image.jpg';
-        $filePath = $this->getSupportDirectory() . '/' . $fileName;
+        $filePath = $this->getSupportDirectory().'/'.$fileName;
 
         $fileSize = filesize($filePath);
         $chunkSize = (config('chunk-receiver.chunk_size') * 1024);
@@ -152,7 +152,7 @@ final class IntegrationTest extends TestCase
         });
 
         $fileName = 'image.jpg';
-        $filePath = $this->getSupportDirectory() . '/' . $fileName;
+        $filePath = $this->getSupportDirectory().'/'.$fileName;
 
         $fileSize = filesize($filePath);
         $chunkSize = (config('chunk-receiver.chunk_size') * 1024);
@@ -170,7 +170,6 @@ final class IntegrationTest extends TestCase
 
             $response = $this->post('/chunks', ['file' => $file, 'chunk' => $i, 'chunks' => $fileChunks, 'name' => $fileName]);
 
-
             //$response->dump();
             fclose($tmpfile);
         }
@@ -186,7 +185,7 @@ final class IntegrationTest extends TestCase
     public function chunk_without_output_can_fail()
     {
         $fileName = 'image.jpg';
-        $filePath = $this->getSupportDirectory() . '/' . $fileName;
+        $filePath = $this->getSupportDirectory().'/'.$fileName;
 
         $fileSize = filesize($filePath);
         $chunkSize = (config('chunk-receiver.chunk_size') * 1024);
@@ -226,7 +225,7 @@ final class IntegrationTest extends TestCase
     public function chunk_without_input_can_fail()
     {
         $fileName = 'image.jpg';
-        $filePath = $this->getSupportDirectory() . '/' . $fileName;
+        $filePath = $this->getSupportDirectory().'/'.$fileName;
 
         $fileSize = filesize($filePath);
         $chunkSize = (config('chunk-receiver.chunk_size') * 1024);
