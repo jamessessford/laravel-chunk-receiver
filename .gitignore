@@ -5,3 +5,4 @@
 /tests/Support/temp
 /tests/temp
 .coveralls.yml
+/build

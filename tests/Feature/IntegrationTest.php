@@ -2,14 +2,14 @@
 
 namespace JamesSessford\LaravelChunkReceiver\Tests\Feature\ChunkReceiver;
 
+use Illuminate\Filesystem\Filesystem as FileSystem;
+use Illuminate\Http\Testing\File as TestingFile;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Http\Testing\File as TestingFile;
-use Illuminate\Filesystem\Filesystem as FileSystem;
-use JamesSessford\LaravelChunkReceiver\Tests\TestCase;
 use JamesSessford\LaravelChunkReceiver\Facades\ChunkReceiver;
 use JamesSessford\LaravelChunkReceiver\Requests\ChunkReceiverRequest as Request;
+use JamesSessford\LaravelChunkReceiver\Tests\TestCase;
 
 final class IntegrationTest extends TestCase
 {
@@ -55,7 +55,7 @@ final class IntegrationTest extends TestCase
         });
 
         $fileName = 'image.jpg';
-        $filePath = $this->getSupportDirectory().'/'.$fileName;
+        $filePath = $this->getSupportDirectory() . '/' . $fileName;
 
         $fileSize = filesize($filePath);
         $chunkSize = (config('chunk-receiver.chunk_size') * 1024);
@@ -89,7 +89,7 @@ final class IntegrationTest extends TestCase
         });
 
         $fileName = 'image.jpg';
-        $filePath = $this->getSupportDirectory().'/'.$fileName;
+        $filePath = $this->getSupportDirectory() . '/' . $fileName;
 
         $fileSize = filesize($filePath);
         $chunkSize = (config('chunk-receiver.chunk_size') * 1024);
@@ -97,15 +97,21 @@ final class IntegrationTest extends TestCase
 
         for ($i = 0; $i < $fileChunks; $i++) {
             $fileBytes = file_get_contents($filePath, false, null, $i * $chunkSize, $chunkSize);
-
+            //file_put_contents($this->getFilesDirectory() . '/image.jpg', $fileBytes);
             $tmpfile = tmpfile();
             fwrite($tmpfile, $fileBytes);
 
             $file = new TestingFile('image.jpg', $tmpfile);
 
+            //$file = new UploadedFile($this->getFilesDirectory() . '/image.jpg', 'image.jpg', 'image/jpeg');
+
             $response = $this->post('/chunks', ['file' => $file, 'chunk' => $i, 'chunks' => $fileChunks, 'name' => $fileName]);
+
+
+            //$response->dump();
             fclose($tmpfile);
         }
+        //dd($response);
 
         $data = ['file' => 'image.jpg'];
 
@@ -114,10 +120,10 @@ final class IntegrationTest extends TestCase
     }
 
     /** @test */
-    public function chunk_receiver()
+    public function chunk_without_output_can_fail()
     {
         $fileName = 'image.jpg';
-        $filePath = $this->getSupportDirectory().'/'.$fileName;
+        $filePath = $this->getSupportDirectory() . '/' . $fileName;
 
         $fileSize = filesize($filePath);
         $chunkSize = (config('chunk-receiver.chunk_size') * 1024);
@@ -125,7 +131,7 @@ final class IntegrationTest extends TestCase
 
         $filesystem = new Filesystem;
 
-        $i = 0;
+        $i = 2;
         $fileBytes = file_get_contents($filePath, false, null, $i * $chunkSize, $chunkSize);
         $tmpfile = tmpfile();
         fwrite($tmpfile, $fileBytes);
@@ -140,8 +146,30 @@ final class IntegrationTest extends TestCase
             'name' => 'image.jpg',
         ], [], [], $files);
         $receivedFile = new \JamesSessford\LaravelChunkReceiver\ReceivedFile($chunkReceiverRequest, $filesystem);
-        $receivedFile->processUpload('file', function ($file) {
-        });
+
+        rmdir($this->getChunkDirectory());
+
+        try {
+            $receivedFile->chunks('file', function ($file) {
+            });
+        } catch (\JamesSessford\LaravelChunkReceiver\Exceptions\Exception $e) {
+            $this->assertInstanceOf('JamesSessford\LaravelChunkReceiver\Exceptions\Exception', $e);
+            $this->assertEquals(102, $e->getCode());
+            $this->assertEquals('Failed to open output stream.', $e->getMessage());
+        }
+    }
+
+    /** @test */
+    public function chunk_without_input_can_fail()
+    {
+        $fileName = 'image.jpg';
+        $filePath = $this->getSupportDirectory() . '/' . $fileName;
+
+        $fileSize = filesize($filePath);
+        $chunkSize = (config('chunk-receiver.chunk_size') * 1024);
+        $fileChunks = (int) ceil($fileSize / $chunkSize);
+
+        $filesystem = new Filesystem;
 
         $i = 1;
         $fileBytes = file_get_contents($filePath, false, null, $i * $chunkSize, $chunkSize);
@@ -166,6 +194,8 @@ final class IntegrationTest extends TestCase
             });
         } catch (\JamesSessford\LaravelChunkReceiver\Exceptions\Exception $e) {
             $this->assertInstanceOf('JamesSessford\LaravelChunkReceiver\Exceptions\Exception', $e);
+            $this->assertEquals(101, $e->getCode());
+            $this->assertEquals('Failed to open input stream.', $e->getMessage());
         }
     }
 }
