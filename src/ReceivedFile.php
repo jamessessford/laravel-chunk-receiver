@@ -114,7 +114,7 @@ final class ReceivedFile
         $this->removeOldData($filePath);
         $this->appendData($filePath, $file);
 
-        if ($chunk == $chunks) {
+        if ($chunk == $chunks - 1) {
             $file = new UploadedFile($filePath, $originalName, 'blob', UPLOAD_ERR_OK, true);
 
             return $closure($file);

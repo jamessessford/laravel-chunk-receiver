@@ -55,7 +55,7 @@ final class IntegrationTest extends TestCase
         });
 
         $fileName = 'image.jpg';
-        $filePath = $this->getSupportDirectory().'/'.$fileName;
+        $filePath = $this->getSupportDirectory() . '/' . $fileName;
 
         $fileSize = filesize($filePath);
         $chunkSize = (config('chunk-receiver.chunk_size') * 1024);
@@ -68,7 +68,7 @@ final class IntegrationTest extends TestCase
 
         $file = new TestingFile('image.jpg', $tmpfile);
 
-        $response = $this->post('/chunks', ['file' => $file, 'chunk' => $i, 'chunks' => $fileChunks - 1, 'name' => $fileName]);
+        $response = $this->post('/chunks', ['file' => $file, 'chunk' => $i, 'chunks' => $fileChunks, 'name' => $fileName]);
         fclose($tmpfile);
 
         $data = ['result' => null];
@@ -89,7 +89,7 @@ final class IntegrationTest extends TestCase
         });
 
         $fileName = 'image.jpg';
-        $filePath = $this->getSupportDirectory().'/'.$fileName;
+        $filePath = $this->getSupportDirectory() . '/' . $fileName;
 
         $fileSize = filesize($filePath);
         $chunkSize = (config('chunk-receiver.chunk_size') * 1024);
@@ -103,7 +103,7 @@ final class IntegrationTest extends TestCase
 
             $file = new TestingFile('image.jpg', $tmpfile);
 
-            $response = $this->post('/chunks', ['file' => $file, 'chunk' => $i, 'chunks' => $fileChunks - 1, 'name' => $fileName]);
+            $response = $this->post('/chunks', ['file' => $file, 'chunk' => $i, 'chunks' => $fileChunks, 'name' => $fileName]);
             fclose($tmpfile);
         }
 
@@ -117,7 +117,7 @@ final class IntegrationTest extends TestCase
     public function chunk_receiver()
     {
         $fileName = 'image.jpg';
-        $filePath = $this->getSupportDirectory().'/'.$fileName;
+        $filePath = $this->getSupportDirectory() . '/' . $fileName;
 
         $fileSize = filesize($filePath);
         $chunkSize = (config('chunk-receiver.chunk_size') * 1024);
@@ -136,12 +136,11 @@ final class IntegrationTest extends TestCase
 
         $chunkReceiverRequest = new \JamesSessford\LaravelChunkReceiver\Requests\ChunkReceiverRequest([], [
             'chunks' => $fileChunks,
-            'chunk' => 1,
+            'chunk' => $i,
             'name' => 'image.jpg',
         ], [], [], $files);
         $receivedFile = new \JamesSessford\LaravelChunkReceiver\ReceivedFile($chunkReceiverRequest, $filesystem);
-        $receivedFile->processUpload('file', function ($file) {
-        });
+        $receivedFile->processUpload('file', function ($file) { });
 
         $i = 1;
         $fileBytes = file_get_contents($filePath, false, null, $i * $chunkSize, $chunkSize);
@@ -154,7 +153,7 @@ final class IntegrationTest extends TestCase
 
         $chunkReceiverRequest = new \JamesSessford\LaravelChunkReceiver\Requests\ChunkReceiverRequest([], [
             'chunks' => $fileChunks,
-            'chunk' => 2,
+            'chunk' => $i,
             'name' => 'image.jpg',
         ], [], [], $files);
         $receivedFile = new \JamesSessford\LaravelChunkReceiver\ReceivedFile($chunkReceiverRequest, $filesystem);
@@ -162,8 +161,7 @@ final class IntegrationTest extends TestCase
         unlink($file);
 
         try {
-            $receivedFile->chunks('file', function ($file) {
-            });
+            $receivedFile->chunks('file', function ($file) { });
         } catch (\JamesSessford\LaravelChunkReceiver\Exceptions\Exception $e) {
             $this->assertInstanceOf('JamesSessford\LaravelChunkReceiver\Exceptions\Exception', $e);
         }
