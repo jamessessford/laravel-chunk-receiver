@@ -76,21 +76,21 @@ abstract class TestCase extends Orchestra
 
     public function getSupportDirectory($suffix = '')
     {
-        return __DIR__ . '/Support' . ($suffix == '' ? '' : '/' . $suffix);
+        return __DIR__.'/Support'.($suffix == '' ? '' : '/'.$suffix);
     }
 
     public function getTempDirectory($suffix = '')
     {
-        return $this->getSupportDirectory() . '/temp' . ($suffix == '' ? '' : '/' . $suffix);
+        return $this->getSupportDirectory().'/temp'.($suffix == '' ? '' : '/'.$suffix);
     }
 
     public function getFilesDirectory($suffix = '')
     {
-        return $this->getTempDirectory() . '/files' . ($suffix == '' ? '' : '/' . $suffix);
+        return $this->getTempDirectory().'/files'.($suffix == '' ? '' : '/'.$suffix);
     }
 
     public function getChunkDirectory($suffix = '')
     {
-        return $this->getTempDirectory() . '/chunks' . ($suffix == '' ? '' : '/' . $suffix);
+        return $this->getTempDirectory().'/chunks'.($suffix == '' ? '' : '/'.$suffix);
     }
 }
