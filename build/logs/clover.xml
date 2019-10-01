@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1569946097">
-  <project timestamp="1569946097">
+<coverage generated="1569953275">
+  <project timestamp="1569953275">
     <package name="JamesSessford\LaravelChunkReceiver">
       <file name="C:\jamessessford\packages\laravel-chunk-receiver\src\ChunkReceiver.php">
         <class name="JamesSessford\LaravelChunkReceiver\ChunkReceiver" namespace="JamesSessford\LaravelChunkReceiver">

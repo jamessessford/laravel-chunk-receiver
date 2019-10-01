@@ -4,3 +4,4 @@
 .env
 /tests/Support/temp
 /tests/temp
+.coveralls.yml
