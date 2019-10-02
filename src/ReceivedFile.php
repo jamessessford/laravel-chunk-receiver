@@ -48,7 +48,7 @@ final class ReceivedFile
     {
         $path = config('chunk-receiver.chunk_path');
 
-        if (! $this->storage->isDirectory($path)) {
+        if (!$this->storage->isDirectory($path)) {
             $this->storage->makeDirectory($path, 0777, true);
         }
     }
@@ -109,7 +109,7 @@ final class ReceivedFile
      */
     public function chunks($name, Closure $closure)
     {
-        if (! $this->request->hasFile($name)) {
+        if (!$this->request->hasFile($name)) {
             return;
         }
 
@@ -120,7 +120,7 @@ final class ReceivedFile
         $originalName = $this->request->input('name');
         $originalMime = $file->getMimeType();
 
-        $filePath = $this->getChunkPath().'/'.$originalName.'.part';
+        $filePath = $this->getChunkPath() . '/' . $originalName . '.part';
 
         $this->removeOldData($filePath);
         $this->appendData($filePath, $file);
@@ -154,11 +154,11 @@ final class ReceivedFile
      */
     private function appendData($filePathPartial, UploadedFile $file)
     {
-        if (! $out = @fopen($filePathPartial, 'wb')) {
+        if (!$out = @fopen($filePathPartial, 'wb')) {
             throw new Exception('Failed to open output stream.', 102);
         }
 
-        if (! $in = @fopen($file->getPathname(), 'rb')) {
+        if (!$in = @fopen($file->getPathname(), 'rb')) {
             throw new Exception('Failed to open input stream.', 101);
         }
 
