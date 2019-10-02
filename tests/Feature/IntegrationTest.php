@@ -139,7 +139,8 @@ final class IntegrationTest extends TestCase
 
         $touch = touch($this->getChunkDirectory() . '/.part', $timestamp, $timestamp);
 
-        $receivedFile->chunks('file', function ($file) { });
+        $receivedFile->chunks('file', function ($file) {
+        });
 
         $this->assertGreaterThan($timestamp, filemtime($this->getChunkDirectory() . '/.part'));
     }
@@ -216,7 +217,8 @@ final class IntegrationTest extends TestCase
         rmdir($this->getChunkDirectory());
 
         try {
-            $receivedFile->chunks('file', function ($file) { });
+            $receivedFile->chunks('file', function ($file) {
+            });
         } catch (\JamesSessford\LaravelChunkReceiver\Exceptions\Exception $e) {
             $this->assertInstanceOf('JamesSessford\LaravelChunkReceiver\Exceptions\Exception', $e);
             $this->assertEquals(102, $e->getCode());
@@ -255,7 +257,8 @@ final class IntegrationTest extends TestCase
         unlink($file);
 
         try {
-            $receivedFile->chunks('file', function ($file) { });
+            $receivedFile->chunks('file', function ($file) {
+            });
         } catch (\JamesSessford\LaravelChunkReceiver\Exceptions\Exception $e) {
             $this->assertInstanceOf('JamesSessford\LaravelChunkReceiver\Exceptions\Exception', $e);
             $this->assertEquals(101, $e->getCode());
