@@ -4,6 +4,7 @@ namespace JamesSessford\LaravelChunkReceiver\Tests\Feature\ChunkReceiver;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Testing\File as TestingFile;
 use Illuminate\Filesystem\Filesystem as FileSystem;
 use JamesSessford\LaravelChunkReceiver\Tests\TestCase;
@@ -150,8 +151,7 @@ final class IntegrationTest extends TestCase
     {
         Route::post('/chunks', function (Request $request) {
             return ChunkReceiver::receive('file', function ($file) use ($request) {
-                $fileSize   =   filesize($file->getRealPath());
-                return response(['file' => $request->file('file')->name, 'size' => $fileSize]);
+                return response(['file' => $request->file('file')->name]);
             });
         });
 
@@ -174,7 +174,7 @@ final class IntegrationTest extends TestCase
             fclose($tmpfile);
         }
 
-        $data = ['file' => 'image.jpg', 'size' => $fileSize];
+        $data = ['file' => 'image.jpg'];
 
         $response->assertStatus(200);
         $response->assertJsonFragment($data);
