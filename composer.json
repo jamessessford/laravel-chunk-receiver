@@ -5,7 +5,8 @@
     "authors": [
         {
             "name": "James Sessford",
-            "email": "hello@jamessessford.com"
+            "email": "hello@jamessessford.com",
+            "role": "developer"
         }
     ],
     "require": {

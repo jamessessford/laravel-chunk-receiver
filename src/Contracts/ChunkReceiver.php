@@ -7,7 +7,11 @@ use Closure;
 interface ChunkReceiver
 {
     /**
-     * Handle an incoming request containing a chunked file.
+     * Chunked upload handler.
+     *
+     * @param  string $name
+     * @param  Closure $closure
+     * @return Closure|string[]
      */
     public function receive(string $name, Closure $closure);
 }
