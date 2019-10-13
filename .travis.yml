@@ -15,12 +15,15 @@ matrix:
 before_install:
   - travis_retry composer self-update
   - travis_retry composer require --no-update --no-interaction "illuminate/support:${LARAVEL}" "orchestra/testbench:${TESTBENCH}"
+  - travis_retry composer require --dev phpunit/php-code-coverage php-coveralls/php-coveralls --no-interaction --no-update
 
 install:
   - travis_retry composer update ${COMPOSER_FLAGS} --prefer-dist --no-interaction --no-suggest
 
 script:
-  - vendor/bin/phpunit
+  - vendor/bin/phpunit --coverage-text --coverage-clover=build/logs/clover.xml
+  - vendor/bin/phpmd ./src/ text "cleancode,controversial,design,naming,unusedcode"
+  - vendor/bin/phpinsights analyse ./src/ --format=console --no-interaction --min-quality=95 --min-complexity=50 --min-architecture=100 --min-style=100
 
 after_success:
   - travis_retry php vendor/bin/php-coveralls

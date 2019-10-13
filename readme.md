@@ -7,3 +7,12 @@
 A file upload wrapper for Laravel to receieve chunk uploads. Heavily inspired by https://github.com/jenky/laravel-plupload.
 
 Currently heavily in development and not intended for public consumption yet.
+
+## Contributors
+
+- [James Sessford](https://github.com/jamessessford)
+- [All Contributors](../../contributors)
+
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.

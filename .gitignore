@@ -6,3 +6,4 @@
 /tests/temp
 .coveralls.yml
 /build
+composer.lock
