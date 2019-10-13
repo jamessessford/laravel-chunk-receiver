@@ -9,5 +9,5 @@ interface ChunkReceiver
     /**
      * Handle an incoming request containing a chunked file.
      */
-    public function receive($name, Closure $closure);
+    public function receive(string $name, Closure $closure);
 }

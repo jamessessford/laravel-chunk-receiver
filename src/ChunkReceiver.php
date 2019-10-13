@@ -17,7 +17,6 @@ final class ChunkReceiver implements Contract
      * Class constructor.
      *
      * @param  \Illuminate\Contracts\Foundation\Application $app
-     * @return void
      */
     public function __construct(Application $app)
     {
@@ -28,10 +27,10 @@ final class ChunkReceiver implements Contract
      * Chunked upload handler.
      *
      * @param  string $name
-     * @param  closure $closure
-     * @return void
+     * @param  Closure $closure
+     * @return Closure|string[]
      */
-    public function receive($name, Closure $closure)
+    public function receive(string $name, Closure $closure)
     {
         $receivedFileHandler = $this->app->make(ReceivedFile::class);
 

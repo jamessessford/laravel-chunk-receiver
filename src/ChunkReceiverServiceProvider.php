@@ -20,11 +20,11 @@ final class ChunkReceiverServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__.'/../config/chunk-receiver.php' => config_path('chunk-receiver.php'),
+                __DIR__ . '/../config/chunk-receiver.php' => config_path('chunk-receiver.php'),
             ], 'config');
         }
     }
@@ -34,14 +34,14 @@ final class ChunkReceiverServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->mergeConfigFrom(
-            __DIR__.'/../config/chunk-receiver.php',
+            __DIR__ . '/../config/chunk-receiver.php',
             'chunk-receiver'
         );
 
-        $this->app->singleton(ChunkReceiverContract::class, function ($app) {
+        $this->app->singleton(ChunkReceiverContract::class, static function ($app) {
             return new ChunkReceiver($app);
         });
 

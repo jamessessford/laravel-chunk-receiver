@@ -16,9 +16,9 @@
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.15",
+        "nunomaduro/phpinsights": "^1.9",
         "orchestra/testbench": "^4.0",
-        "php-coveralls/php-coveralls": "^2.1",
-        "phpunit/php-code-coverage": "^7.0",
+        "phpmd/phpmd": "^2.7",
         "phpunit/phpunit": "^8.0"
     },
     "autoload": {
@@ -45,5 +45,9 @@
         "sort-packages": true
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "scripts": {
+        "test": "vendor/bin/phpunit --colors=always",
+        "test-coverage": "vendor/bin/phpunit --coverage-html build/coverage"
+    }
 }

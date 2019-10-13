@@ -30,13 +30,12 @@ final class ReceivedFile
      *
      * @param  Request $request
      * @param  Filesystem $file
-     * @return void
      */
     public function __construct(Request $request, Filesystem $file)
     {
         $this->request = $request;
         $this->storage = $file;
-        $this->setChunkPath();
+        $this->buildChunkPath();
     }
 
     /**
@@ -44,7 +43,7 @@ final class ReceivedFile
      *
      * @return void
      */
-    private function setChunkPath()
+    private function buildChunkPath(): void
     {
         $path = config('chunk-receiver.chunk_path');
 
@@ -58,7 +57,7 @@ final class ReceivedFile
      *
      * @return string
      */
-    public function getChunkPath()
+    public function getChunkPath(): string
     {
         return config('chunk-receiver.chunk_path');
     }
@@ -68,18 +67,14 @@ final class ReceivedFile
      *
      * @param  string $name
      * @param  \Closure $closure
-     * @return array
+     * @return string[]
      */
-    public function processUpload($name, Closure $closure)
+    public function processUpload(string $name, Closure $closure): array
     {
         $response = [];
         $response['jsonrpc'] = '2.0';
 
-        if ($this->withChunks()) {
-            $result = $this->chunks($name, $closure);
-        } else {
-            $result = $this->single($name, $closure);
-        }
+        $result = ($this->withChunks() ? $this->chunks($name, $closure) : $result = $this->single($name, $closure));
 
         $response['result'] = $result;
 
@@ -91,13 +86,14 @@ final class ReceivedFile
      *
      * @param  string $name
      * @param  \Closure $closure
-     * @return void
+     * @return Closure|bool
      */
-    public function single($name, Closure $closure)
+    public function single(string $name, Closure $closure)
     {
         if ($this->request->hasFile($name)) {
             return $closure($this->request->file($name));
         }
+        return false;
     }
 
     /**
@@ -105,12 +101,12 @@ final class ReceivedFile
      *
      * @param  string $name
      * @param  \Closure $closure
-     * @return mixed
+     * @return Closure|bool
      */
-    public function chunks($name, Closure $closure)
+    public function chunks(string $name, Closure $closure)
     {
         if (! $this->request->hasFile($name)) {
-            return;
+            return false;
         }
 
         $file = $this->request->file($name);
@@ -120,12 +116,12 @@ final class ReceivedFile
         $originalName = $this->request->input('name');
         $originalMime = $file->getMimeType();
 
-        $filePath = $this->getChunkPath().'/'.$originalName.'.part';
+        $filePath = $this->getChunkPath() . '/' . $originalName . '.part';
 
         $this->removeOldData($filePath);
         $this->appendData($filePath, $file);
 
-        if ($chunk == $chunks - 1) {
+        if ($chunk === $chunks - 1) {
             $file = new UploadedFile($filePath, $originalName, $originalMime, UPLOAD_ERR_OK, true);
             //@unlink($file);
             return $closure($file);
@@ -138,7 +134,7 @@ final class ReceivedFile
      * @param  string $filePath
      * @return void
      */
-    private function removeOldData($filePath)
+    private function removeOldData(string $filePath): void
     {
         if ($this->storage->exists($filePath) && ($this->storage->lastModified($filePath) < time() - $this->maxAge)) {
             $this->storage->delete($filePath);
@@ -152,22 +148,26 @@ final class ReceivedFile
      * @param  \Illuminate\Http\UploadedFile $file
      * @return void
      */
-    private function appendData($filePathPartial, UploadedFile $file)
+    private function appendData(string $filePathPartial, UploadedFile $file): void
     {
-        if (! $out = @fopen($filePathPartial, 'ab')) {
+        try {
+            $outFile  = fopen($filePathPartial, 'ab');
+        } catch (\Exception | \ErrorException $exception) {
             throw new Exception('Failed to open output stream.', 102);
         }
 
-        if (! $in = @fopen($file->getPathname(), 'rb')) {
+        try {
+            $inFile   = fopen($file->getPathname(), 'rb');
+        } catch (\Exception | \ErrorException $exception) {
             throw new Exception('Failed to open input stream.', 101);
         }
 
-        while ($buff = fread($in, 4096)) {
-            fwrite($out, $buff);
+        while ($buff = fread($inFile, 4096)) {
+            fwrite($outFile, $buff);
         }
 
-        @fclose($out);
-        @fclose($in);
+        fclose($outFile);
+        fclose($inFile);
     }
 
     /**
@@ -175,7 +175,7 @@ final class ReceivedFile
      *
      * @return bool
      */
-    public function withChunks()
+    public function withChunks(): bool
     {
         return (bool) $this->request->input('chunks', false);
     }
