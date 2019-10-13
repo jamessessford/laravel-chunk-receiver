@@ -93,6 +93,7 @@ final class ReceivedFile
         if ($this->request->hasFile($name)) {
             return $closure($this->request->file($name));
         }
+
         return false;
     }
 
@@ -116,7 +117,7 @@ final class ReceivedFile
         $originalName = $this->request->input('name');
         $originalMime = $file->getMimeType();
 
-        $filePath = $this->getChunkPath() . '/' . $originalName . '.part';
+        $filePath = $this->getChunkPath().'/'.$originalName.'.part';
 
         $this->removeOldData($filePath);
         $this->appendData($filePath, $file);
@@ -151,13 +152,13 @@ final class ReceivedFile
     private function appendData(string $filePathPartial, UploadedFile $file): void
     {
         try {
-            $outFile  = fopen($filePathPartial, 'ab');
+            $outFile = fopen($filePathPartial, 'ab');
         } catch (\Exception | \ErrorException $exception) {
             throw new Exception('Failed to open output stream.', 102);
         }
 
         try {
-            $inFile   = fopen($file->getPathname(), 'rb');
+            $inFile = fopen($file->getPathname(), 'rb');
         } catch (\Exception | \ErrorException $exception) {
             throw new Exception('Failed to open input stream.', 101);
         }

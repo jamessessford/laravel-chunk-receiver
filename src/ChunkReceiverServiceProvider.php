@@ -24,7 +24,7 @@ final class ChunkReceiverServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__ . '/../config/chunk-receiver.php' => config_path('chunk-receiver.php'),
+                __DIR__.'/../config/chunk-receiver.php' => config_path('chunk-receiver.php'),
             ], 'config');
         }
     }
@@ -37,7 +37,7 @@ final class ChunkReceiverServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->mergeConfigFrom(
-            __DIR__ . '/../config/chunk-receiver.php',
+            __DIR__.'/../config/chunk-receiver.php',
             'chunk-receiver'
         );
 
