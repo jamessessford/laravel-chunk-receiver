@@ -3,8 +3,8 @@
 namespace JamesSessford\LaravelChunkReceiver;
 
 use Illuminate\Support\ServiceProvider;
-use JamesSessford\LaravelChunkReceiver\Facades\ChunkReceiver as ChunkReceiverFacade;
 use JamesSessford\LaravelChunkReceiver\Contracts\ChunkReceiver as ChunkReceiverContract;
+use JamesSessford\LaravelChunkReceiver\Facades\ChunkReceiver as ChunkReceiverFacade;
 
 final class ChunkReceiverServiceProvider extends ServiceProvider
 {

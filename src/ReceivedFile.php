@@ -3,8 +3,8 @@
 namespace JamesSessford\LaravelChunkReceiver;
 
 use Closure;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Http\UploadedFile;
 use JamesSessford\LaravelChunkReceiver\Exceptions\Exception;
 use JamesSessford\LaravelChunkReceiver\Requests\ChunkReceiverRequest as Request;
 

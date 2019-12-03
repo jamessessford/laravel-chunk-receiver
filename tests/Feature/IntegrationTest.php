@@ -2,13 +2,13 @@
 
 namespace JamesSessford\LaravelChunkReceiver\Tests\Feature\ChunkReceiver;
 
+use Illuminate\Filesystem\Filesystem as FileSystem;
+use Illuminate\Http\Testing\File as TestingFile;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Http\Testing\File as TestingFile;
-use Illuminate\Filesystem\Filesystem as FileSystem;
-use JamesSessford\LaravelChunkReceiver\Tests\TestCase;
 use JamesSessford\LaravelChunkReceiver\Facades\ChunkReceiver;
 use JamesSessford\LaravelChunkReceiver\Requests\ChunkReceiverRequest as Request;
+use JamesSessford\LaravelChunkReceiver\Tests\TestCase;
 
 final class IntegrationTest extends TestCase
 {
