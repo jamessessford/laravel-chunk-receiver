@@ -20,14 +20,13 @@ return PhpCsFixer\Config::create()
         'array_syntax' => ['syntax' => 'short'],
         'trailing_comma_in_multiline_array' => true,
 
-        'ordered_imports' => ['sortAlgorithm' => 'length'],
+        'ordered_imports' => ['sortAlgorithm' => 'alpha'],
         'no_unused_imports' => true,
 
         'unary_operator_spaces' => false,
         'binary_operator_spaces' => false,
         'cast_spaces' => true,
         'not_operator_with_successor_space' => true,
-
 
         'blank_line_before_statement' => [
             'statements' => [],

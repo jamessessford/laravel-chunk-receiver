@@ -3,8 +3,8 @@
 namespace JamesSessford\LaravelChunkReceiver;
 
 use Closure;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Http\UploadedFile;
 use JamesSessford\LaravelChunkReceiver\Exceptions\Exception;
 use JamesSessford\LaravelChunkReceiver\Requests\ChunkReceiverRequest as Request;
 
@@ -36,20 +36,6 @@ final class ReceivedFile
         $this->request = $request;
         $this->storage = $file;
         $this->buildChunkPath();
-    }
-
-    /**
-     * Set chuck upload path.
-     *
-     * @return void
-     */
-    private function buildChunkPath(): void
-    {
-        $path = config('chunk-receiver.chunk_path');
-
-        if (! $this->storage->isDirectory($path)) {
-            $this->storage->makeDirectory($path, 0777, true);
-        }
     }
 
     /**
@@ -117,7 +103,7 @@ final class ReceivedFile
         $originalName = $this->request->input('name');
         $originalMime = $file->getMimeType();
 
-        $filePath = $this->getChunkPath().'/'.$originalName.'.part';
+        $filePath = $this->getChunkPath() . '/' . $originalName . '.part';
 
         $this->removeOldData($filePath);
         $this->appendData($filePath, $file);
@@ -126,6 +112,30 @@ final class ReceivedFile
             $file = new UploadedFile($filePath, $originalName, $originalMime, UPLOAD_ERR_OK, true);
             //@unlink($file);
             return $closure($file);
+        }
+    }
+
+    /**
+     * Is the request chunked or a single file?
+     *
+     * @return bool
+     */
+    public function withChunks(): bool
+    {
+        return (bool) $this->request->input('chunks', false);
+    }
+
+    /**
+     * Set chuck upload path.
+     *
+     * @return void
+     */
+    private function buildChunkPath(): void
+    {
+        $path = config('chunk-receiver.chunk_path');
+
+        if (! $this->storage->isDirectory($path)) {
+            $this->storage->makeDirectory($path, 0777, true);
         }
     }
 
@@ -169,15 +179,5 @@ final class ReceivedFile
 
         fclose($outFile);
         fclose($inFile);
-    }
-
-    /**
-     * Is the request chunked or a single file?
-     *
-     * @return bool
-     */
-    public function withChunks(): bool
-    {
-        return (bool) $this->request->input('chunks', false);
     }
 }
