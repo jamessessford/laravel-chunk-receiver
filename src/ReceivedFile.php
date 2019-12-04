@@ -103,7 +103,7 @@ final class ReceivedFile
         $originalName = $this->request->input('name');
         $originalMime = $file->getMimeType();
 
-        $filePath = $this->getChunkPath() . '/' . $originalName . '.part';
+        $filePath = $this->getChunkPath().'/'.$originalName.'.part';
 
         $this->removeOldData($filePath);
         $this->appendData($filePath, $file);
